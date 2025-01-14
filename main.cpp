@@ -37,27 +37,18 @@ std::istream &operator >>(std::istream &is, Point&p) {
 
 
 // Convert degrees to radians
-AngleType DegreesToRadians(AngleType degrees) {
+AngleType DegreesToRadians(const AngleType degrees) {
 	return degrees * (M_PI / 180.0);
 }
 
 
-// Before conversion  |  After conversion:
-// Z+ ANG: 0          |  Z+ ANG: 0
-// x+ ANG: -90        |  x+ ANG: 90
-// z- ANG: -180       |  z- ANG: 180
-// x- ANG: 90         |  x- ANG: 270
-AngleType convertMinecraftDir(AngleType &dir){
-	if(dir <= 0){
-		return -dir;
-	} else {
-		return 360-dir;
-	}
+AngleType convertToModelDirection(const AngleType dir){
+	return -dir;
 }
 
 
 Point getUnitDirectionVector(AngleType directionDeg){
-    directionDeg = convertMinecraftDir(directionDeg);
+    directionDeg = convertToModelDirection(directionDeg);
     AngleType directionRad = DegreesToRadians(directionDeg);
 
     return Point(cos(directionRad), sin(directionRad));
@@ -103,7 +94,6 @@ Point calculateStrongholdPosition(const Point p1, const Point p2, const Point d1
 
     return p1 + lambda * d1;
 }
-
 
 
 int main()
